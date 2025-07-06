@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daily Curiosity Prompt</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-900 min-h-screen flex items-center justify-center p-6">
+  <div class="max-w-xl text-center space-y-6 bg-white p-6 rounded-2xl shadow-lg">
+    <h1 class="text-2xl font-bold">Daily Curiosity Prompt</h1>
+    <p id="prompt" class="text-lg italic text-gray-700">Loading prompt...</p>
+    <p class="text-sm text-gray-400" id="dateLabel"></p>
+  </div>
+
+  <script>
+    const prompts = [
+      "If you could master any skill instantly, what would it be?",
+      "What belief do you hold that most people would disagree with?",
+      "If your life were a novel, what would the title be?",
+      "What's one decision that changed everything?",
+      "What’s a question you wish people asked you more often?",
+      "What are you most curious about right now?",
+      "What invention would improve your daily life?",
+      "If your future self could send you one message, what would you want it to say?"
+    ];
+
+    const today = new Date().toISOString().split("T")[0];
+    const stored = JSON.parse(localStorage.getItem("dailyPrompt") || '{}');
+
+    if (stored.date !== today) {
+      const random = prompts[Math.floor(Math.random() * prompts.length)];
+      localStorage.setItem("dailyPrompt", JSON.stringify({ prompt: random, date: today }));
+      document.getElementById("prompt").innerText = random;
+    } else {
+      document.getElementById("prompt").innerText = stored.prompt;
+    }
+
+    document.getElementById("dateLabel").innerText = `Today's date: ${today}`;
+  </script>
+</body>
+</html>
